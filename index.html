@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<div id="chartContainer" style="height: 100vh; width: 100%;"></div>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        var d1 = $.get('nonce.json');
+        var d2 = $.get('out.json');
+        $.when(d1, d2).done(function (d1, d2) {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    zoomEnabled: true,
+                    backgroundColor: "#000000",
+                    title: {
+                        text: "Block Nonces",
+                        fontColor: "#ffffff",
+                    },
+                    axisX: {
+                        title: "Blocks",
+                        labelFontColor: "#ffffff",
+                        fontColor: "#ffffff",
+                    },
+                    axisY: [
+                        { title: "Nonce" },
+                        { title: "Difficulty" }
+                    ],
+                    data: [{
+                        axisYindex: 0,
+                        type: "scatter",
+                        markerSize: 1,
+                        markerColor: "#FFFFFF",
+                        markerType: "circle",
+                        dataPoints: d1[0],
+                    }, {
+                        axisYindex: 1,
+                        color: 'rgba(100,149,237,.6)',
+                        axisYType: "secondary",
+                        type: "line",
+                        dataPoints: d2[0],
+                    }],
+            });
+            chart.render();
+
+        });
+
+    });
+    /*
+    */
+</script>
+</body>
+</html>
